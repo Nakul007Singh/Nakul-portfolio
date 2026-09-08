@@ -1,126 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Portfolio</title>
+  <title>Nakul's Portfolio</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
     body {
-      background-color: #121212;
+      background: #121212;
       color: #fff;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      scroll-behavior: smooth;
     }
 
-    .highlight {
-      color: #00bcd4;
-    }
+    .highlight { color: #00bcd4; }
+    .section { padding: 80px 0; }
 
-    .section {
-      padding: 80px 0;
-    }
-
-    /* Navbar Styling */
-    .navbar {
-      background: linear-gradient(90deg, #00bcd4, #006064);
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-    }
-
-    .navbar-brand {
-      font-weight: 700;
-      color: #fff !important;
-      letter-spacing: 1px;
-    }
-
-    .navbar-nav .nav-link {
-      position: relative;
-      color: #fff !important;
-      font-weight: 500;
-      margin: 0 12px;
-      transition: color 0.3s ease;
-    }
-
+    /* Navbar */
+    .navbar { background:#1c1c1c; box-shadow:0 4px 10px rgba(0,0,0,0.4); }
+    .navbar-brand { font-weight:700; color:#fff !important; }
+    .navbar-nav .nav-link { position:relative; color:#fff !important; margin:0 12px; }
     .navbar-nav .nav-link::after {
-      content: '';
-      position: absolute;
-      width: 0%;
-      height: 2px;
-      left: 0;
-      bottom: -5px;
-      background: #ffeb3b;
-      transition: 0.3s;
+      content:''; position:absolute; width:0%; height:2px; left:50%; bottom:-5px;
+      background:#ffeb3b; transition:all 0.4s ease; transform:translateX(-50%);
     }
-
     .navbar-nav .nav-link:hover::after,
-    .navbar-nav .nav-link.active::after {
-      width: 100%;
+    .navbar-nav .nav-link.active::after { width:100%; }
+    .navbar-nav .nav-link.active { color:#ffeb3b !important; font-weight:600; }
+
+    /* Scroll reveal */
+    .reveal { opacity:1; transform:translateY(0); }
+    .reveal.active { animation:fadeUp 0.8s ease forwards; }
+    @keyframes fadeUp { from{opacity:0; transform:translateY(40px);} to{opacity:1; transform:translateY(0);} }
+
+    /* Project Cards */
+    .project-card {
+      border-radius:15px; background:rgba(255,255,255,0.05);
+      padding:20px; backdrop-filter:blur(8px);
+      transition:transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .project-card:hover { transform:translateY(-8px); box-shadow:0 0 20px rgba(0,188,212,0.6); }
+    .project-icon { font-size:2.5rem; color:#00bcd4; transition:transform 0.3s ease,color 0.3s ease; }
+    .project-card:hover .project-icon { transform:scale(1.2) rotate(10deg); color:#ffeb3b; text-shadow:0 0 15px rgba(255,235,59,0.9); }
+
+    /* Skills */
+    .progress { background:rgba(255,255,255,0.1); border-radius:10px; overflow:hidden; height:25px; }
+    .progress-bar {
+      width:0; height:100%; background:linear-gradient(90deg,#00e5ff,#00ff88);
+      color:#000; font-weight:bold; text-align:right; padding-right:10px;
+      line-height:25px; border-radius:10px; animation:grow 2s forwards;
+    }
+    @keyframes grow { from{width:0;} to{width:var(--percent);} }
+
+    /* Certificates */
+    .cert-card {
+      background:rgba(255,255,255,0.05);
+      border-radius:15px; padding:15px;
+      transition:transform 0.4s ease, box-shadow 0.4s ease;
+      backdrop-filter:blur(6px); text-align:center;
+    }
+    .cert-card img {
+      width:100%; height:180px; object-fit:cover; border-radius:10px;
+      transition:transform 0.4s ease;
+    }
+    .cert-card:hover img { transform:scale(1.05); }
+    .cert-card:hover { transform:translateY(-8px); box-shadow:0 0 20px rgba(0,188,212,0.6); }
+    .cert-card .btn {
+      border-radius:30px; transition:all 0.3s ease;
+    }
+    .cert-card .btn:hover {
+      background:linear-gradient(90deg,#00e5ff,#00ff88);
+      color:#000; transform:scale(1.05);
+      box-shadow:0 0 12px rgba(0,255,200,0.8);
     }
 
-    .navbar-nav .nav-link:hover,
-    .navbar-nav .nav-link.active {
-      color: #ffeb3b !important;
+    /* Social Icons */
+    .social-icons a {
+      font-size:1.2rem; color:#fff; width:50px; height:50px;
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      transition:transform 0.3s ease,box-shadow 0.3s ease;
     }
-
-    .card {
-      background-color: #1e1e1e;
-      border: none;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .card:hover {
-      transform: translateY(-5px) scale(1.03);
-      box-shadow: 0 0 20px rgba(0, 188, 212, 0.5);
-    }
-
-    .btn-custom {
-      background-color: #00bcd4;
-      border: none;
-      color: white;
-      font-weight: 500;
-      transition: background 0.3s;
-    }
-
-    .btn-custom:hover {
-      background-color: #0097a7;
-    }
-
-    /* Certificates Section */
-    #certificates .card {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      min-height: 420px;
-      text-align: left;
-      padding: 20px;
-    }
-
-    #certificates .card h5 {
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
-    #certificates .card p {
-      font-size: 0.95rem;
-      line-height: 1.5;
-      color: #ddd;
-      flex-grow: 1;
-    }
-
-    #certificates .card .btn {
-      margin-top: auto;
-      align-self: flex-start;
-    }
+    .social-icons a.github { background:#24292e; }
+    .social-icons a.linkedin { background:#0e76a8; }
+    .social-icons a.twitter { background:#1da1f2; }
+    .social-icons a:hover { transform:scale(1.2); box-shadow:0 0 15px rgba(255,255,255,0.7); }
   </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
 <body>
   <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark">
+  <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#">Nakul's Portfolio</a>
+      <a class="navbar-brand" href="#">Nakul's Portfolio</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -129,7 +102,6 @@
           <li class="nav-item"><a class="nav-link active" href="#about">About</a></li>
           <li class="nav-item"><a class="nav-link" href="#projects">Projects</a></li>
           <li class="nav-item"><a class="nav-link" href="#skills">Skills</a></li>
-          <li class="nav-item"><a class="nav-link" href="#whyhire">Why Hire Me</a></li>
           <li class="nav-item"><a class="nav-link" href="#certificates">Certificates</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
         </ul>
@@ -137,211 +109,177 @@
     </div>
   </nav>
 
-  <!-- Hero Section -->
-  <div class="container text-center py-5">
+  <!-- Hero -->
+  <div class="container text-center py-5 reveal active">
     <h1 class="display-4">Hi, I'm <span class="highlight">Nakul Jadoun</span></h1>
-    <p class="lead">B.Tech in CS (AI) | Frontend Developer | 6 Months Internship Experience</p>
+    <p class="lead">B.Tech in CS (AI) | Frontend Developer | Internship Experience</p>
   </div>
 
-  <!-- About Section -->
-  <section id="about" class="section text-center">
+  <!-- About -->
+  <section id="about" class="section text-center reveal">
     <div class="container">
       <h2 class="highlight mb-4">About Me</h2>
-      <p>I am a passionate and motivated frontend developer with a background in Computer Science and Artificial
-        Intelligence. I completed my B.Tech and have built multiple frontend projects using HTML, CSS, JavaScript, and
-        Bootstrap. I also completed a 6-month internship where I worked on real-time applications and improved my
-        practical development skills. I did my 10th and 12th from a Government School in Jaipur, which shaped my
-        discipline and dedication.</p>
+      <p>I am a passionate frontend developer with a background in Computer Science and Artificial Intelligence. I love building projects with HTML, CSS, JavaScript, and Bootstrap.</p>
     </div>
   </section>
 
-  <!-- Projects Section -->
-  <section id="projects" class="section bg-dark text-center">
+  <!-- Projects -->
+  <section id="projects" class="section text-center reveal" style="background:#1a1a1a;">
     <div class="container">
-      <h2 class="highlight mb-4">Projects</h2>
+      <h2 class="highlight mb-5">🚀 My Projects</h2>
       <div class="row g-4">
-        <div class="col-12 col-md-4">
-          <div class="card p-3 h-100">
-            <h5>Responsive Portfolio Website</h5>
-            <p>Created a fully responsive personal portfolio using HTML, CSS, and Bootstrap to showcase my skills and
-              projects.</p>
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-icon"><i class="fas fa-laptop-code"></i></div>
+            <h5>Portfolio Website</h5>
+            <p>A responsive portfolio to showcase my skills and projects.</p>
           </div>
         </div>
-        <div class="col-12 col-md-4">
-          <div class="card p-3 h-100">
-            <h5>To-Do List App</h5>
-            <p>A simple yet efficient to-do list app built using HTML, CSS, and JavaScript with localStorage support.
-            </p>
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-icon"><i class="fas fa-tasks"></i></div>
+            <h5>To-Do App</h5>
+            <p>A to-do app with localStorage support using HTML, CSS, and JavaScript.</p>
           </div>
         </div>
-        <div class="col-12 col-md-4">
-          <div class="card p-3 h-100">
-            <h5>Landing Page Design</h5>
-            <p>Designed and developed a modern landing page for a fictional startup using Bootstrap and animation
-              effects.</p>
+        <div class="col-md-4">
+          <div class="project-card">
+            <div class="project-icon"><i class="fas fa-rocket"></i></div>
+            <h5>Landing Page</h5>
+            <p>A modern landing page design for a startup using Bootstrap.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Skills Section -->
-  <section id="skills" class="section text-center">
+  <!-- Skills -->
+  <section id="skills" class="section text-center reveal">
     <div class="container">
-      <h2 class="highlight mb-4">Skills</h2>
-      <div class="row g-4">
-        <div class="col-md-6">
-          <div class="card p-4 h-100">
-            <h5 class="mb-3">Frontend</h5>
-            <p>
-              <span class="badge bg-info me-2">HTML5</span>
-              <span class="badge bg-info me-2">CSS3</span>
-              <span class="badge bg-info me-2">Bootstrap 5</span>
-              <span class="badge bg-info">JavaScript</span>
-            </p>
-            <div class="progress mb-2">
-              <div class="progress-bar bg-info" data-width="90%">HTML/CSS</div>
-            </div>
-            <div class="progress mb-2">
-              <div class="progress-bar bg-info" data-width="80%">Bootstrap</div>
-            </div>
-            <div class="progress">
-              <div class="progress-bar bg-info" data-width="75%">JavaScript</div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card p-4 h-100">
-            <h5 class="mb-3">Other Skills</h5>
-            <p>
-              <span class="badge bg-success me-2">Git</span>
-              <span class="badge bg-success me-2">GitHub</span>
-              <span class="badge bg-success">Responsive Design</span>
-            </p>
-            <div class="progress mb-2">
-              <div class="progress-bar bg-success" data-width="85%">Git/GitHub</div>
-            </div>
-            <div class="progress">
-              <div class="progress-bar bg-success" data-width="90%">Responsive Design</div>
-            </div>
-          </div>
-        </div>
+      <h2 class="highlight mb-5">💡 My Skills</h2>
+      <div class="skill mb-4">
+        <h5 class="text-start">HTML / CSS</h5>
+        <div class="progress"><div class="progress-bar" style="--percent:90%">90%</div></div>
+      </div>
+      <div class="skill mb-4">
+        <h5 class="text-start">Bootstrap</h5>
+        <div class="progress"><div class="progress-bar" style="--percent:80%">80%</div></div>
+      </div>
+      <div class="skill mb-4">
+        <h5 class="text-start">JavaScript</h5>
+        <div class="progress"><div class="progress-bar" style="--percent:75%">75%</div></div>
+      </div>
+      <div class="skill mb-4">
+        <h5 class="text-start">Git / GitHub</h5>
+        <div class="progress"><div class="progress-bar" style="--percent:85%">85%</div></div>
       </div>
     </div>
   </section>
 
-  <!-- Why Hire Me Section -->
-  <section id="whyhire" class="section bg-dark text-center">
-    <div class="container">
-      <h2 class="highlight mb-4">Why Hire Me?</h2>
-      <p>As a fresher, I bring energy, enthusiasm, and a willingness to learn. I’m good at understanding client
-        requirements, meeting deadlines, and quickly adapting to new technologies. My internship gave me real-world
-        exposure to frontend development, and I’m ready to contribute to your team from day one.</p>
-    </div>
-  </section>
-
-  <!-- Certificates Section -->
-  <section id="certificates" class="section text-center">
+  <!-- Certificates -->
+  <section id="certificates" class="section text-center reveal">
     <div class="container">
       <h2 class="highlight mb-4">Certificates</h2>
       <div class="row g-4">
-        <div class="col-12 col-md-6 col-lg-3">
-          <div class="card h-100">
-            <img src="./certificates/Nakul_Singh_Jadon_Certificate_1.png" class="img-fluid rounded mb-3"
-              alt="Python & ML Bootcamp">
-            <h5>Python & ML Bootcamp</h5>
-            <p>Completed a 7-Day Python & Machine Learning Bootcamp with Ed-Spread (Sep 2022).</p>
-            <a href="./certificatepdf/Nakul_Singh_Jadon_Certificate_1.pdf" target="_blank"
-              class="btn btn-custom btn-sm mt-2">View Certificate</a>
+        <!-- Certificate 1 -->
+        <div class="col-md-3 col-sm-6">
+          <div class="cert-card">
+            <img src="./certificates/gdsc-wow-certificate-small.png" class="img-fluid" loading="lazy">
+            <h6 class="mt-2">GDSC WOW</h6>
+            <a href="./certificatepdf/[GDSC WOW] Certificate of Participation - Nakul Jadon (1).pdf" target="_blank" class="btn btn-outline-info mt-2">View Certificate</a>
           </div>
         </div>
-        <div class="col-12 col-md-6 col-lg-3">
-          <div class="card h-100">
-            <img src="./certificates/gdsc-wow-certificate-small.png" class="img-fluid rounded mb-3" alt="GDSC WOW">
-            <h5>GDSC WOW Participation</h5>
-            <p>Certificate of Participation at Google Developer Student Clubs WOW Event.</p>
-            <a href="./certificatepdf/GDSC_WOW_Certificate.pdf" target="_blank" class="btn btn-custom btn-sm mt-2">View
-              Certificate</a>
+        <!-- Certificate 2 -->
+        <div class="col-md-3 col-sm-6">
+          <div class="cert-card">
+            <img src="./certificates/Nakul_Internship_Certificate_1.png" class="img-fluid" loading="lazy">
+            <h6 class="mt-2">Web Development</h6>
+            <a href="./certificatepdf/Nakul_Internship Certificate (1).pdf" target="_blank" class="btn btn-outline-info mt-2">View Certificate</a>
           </div>
         </div>
-        <div class="col-12 col-md-6 col-lg-3">
-          <div class="card h-100">
-            <img src="./certificates/Nakul_Internship_Certificate_1.png" class="img-fluid rounded mb-3"
-              alt="Internship">
-            <h5>Web Development Internship</h5>
-            <p>Internship at KvonTech Consultancy Services Pvt. Ltd. (Sep 2024 - Jan 2025).</p>
-            <a href="./certificatepdf/Nakul_Internship_Certificate.pdf" target="_blank"
-              class="btn btn-custom btn-sm mt-2">View Certificate</a>
+        <!-- Certificate 3 -->
+        <div class="col-md-3 col-sm-6">
+          <div class="cert-card">
+            <img src="./certificates/Nakul_Singh_jadon_Tryst_Certificate_1.png" class="img-fluid" loading="lazy">
+            <h6 class="mt-2">Campus Ambassdore</h6>
+            <a href="./certificatepdf/Nakul Singh jadon Tryst Certificate (1).pdf" target="_blank" class="btn btn-outline-info mt-2">View Certificate</a>
           </div>
         </div>
-        <div class="col-12 col-md-6 col-lg-3">
-          <div class="card h-100">
-            <img src="./certificates/Nakul_Singh_jadon_Tryst_Certificate_1.png" class="img-fluid rounded mb-3"
-              alt="Tryst Ambassador">
-            <h5>Campus Ambassador - Tryst’22</h5>
-            <p>Recognized for contributions as a Campus Ambassador at Tryst’22 IIT Delhi.</p>
-            <a href="./certificatepdf/Nakul_Tryst_Certificate.pdf" target="_blank"
-              class="btn btn-custom btn-sm mt-2">View Certificate</a>
+        <!-- Certificate 4 -->
+        <div class="col-md-3 col-sm-6">
+          <div class="cert-card">
+            <img src="./certificates/Nakul_Singh_Jadon_Certificate_1.png" class="img-fluid" loading="lazy">
+            <h6 class="mt-2">Data Science Workshop</h6>
+            <a href="./certificatepdf/Nakul Singh Jadon Certificate (1).pdf" target="_blank" class="btn btn-outline-info mt-2">View Certificate</a>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact Section -->
-  <section id="contact" class="section text-center">
+  <!-- Contact -->
+  <section id="contact" class="section text-center reveal">
     <div class="container">
       <h2 class="highlight mb-4">Contact Me</h2>
-      <p class="mb-5">I'd love to hear from you! Fill out the form below to get in touch.</p>
-      <div class="row justify-content-center">
-        <div class="col-lg-8">
-          <form class="p-4 rounded" style="background-color: #1e1e1e; box-shadow: 0 0 20px rgba(0, 188, 212, 0.3);">
-            <div class="mb-3"><input type="text" class="form-control" placeholder="Your Name" required></div>
-            <div class="mb-3"><input type="email" class="form-control" placeholder="Your Email" required></div>
-            <div class="mb-3"><input type="text" class="form-control" placeholder="Subject"></div>
-            <div class="mb-3"><textarea class="form-control" rows="5" placeholder="Your Message" required></textarea>
-            </div>
-            <button type="submit" class="btn btn-custom w-100">Send Message</button>
-          </form>
-          <div class="social-icons mt-5 d-flex justify-content-center gap-3">
-            <a href="https://github.com/Nakul007Singh" target="_blank" class="icon github"><i
-                class="fab fa-github"></i></a>
-            <a href="https://www.linkedin.com/in/nakul-singh-jadon-6b9059222" target="_blank" class="icon linkedin"><i
-                class="fab fa-linkedin-in"></i></a>
-            <a href="https://x.com/NakulJadoun2004" target="_blank" class="icon twitter"><i
-                class="fab fa-twitter"></i></a>
-          </div>
-        </div>
+      <form class="p-4 rounded" style="background-color:#1e1e1e; box-shadow:0 0 15px rgba(0,188,212,0.3);">
+        <input type="text" class="form-control mb-3" placeholder="Your Name" required>
+        <input type="email" class="form-control mb-3" placeholder="Your Email" required>
+        <textarea class="form-control mb-3" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit" class="btn btn-warning w-100">Send</button>
+      </form>
+      <div class="social-icons mt-4 d-flex justify-content-center gap-3">
+        <a href="https://github.com/Nakul007Singh" target="_blank" class="github"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/nakul-singh-jadon-6b9059222" target="_blank" class="linkedin"><i class="fab fa-linkedin-in"></i></a>
+        <a href="https://x.com/NakulJadoun2004" target="_blank" class="twitter"><i class="fab fa-twitter"></i></a>
       </div>
     </div>
   </section>
 
+  <!-- Scripts -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
-    // Animate skill bars when in view
-    const skillSection = document.querySelector('#skills');
-    const progressBars = document.querySelectorAll('.progress-bar');
-
-    function showProgress() {
-      progressBars.forEach(bar => {
-        const value = bar.getAttribute('data-width');
-        bar.style.width = value;
-      });
-    }
-
-    function checkScroll() {
-      const sectionPos = skillSection.getBoundingClientRect().top;
-      const screenPos = window.innerHeight / 1.2;
-      if (sectionPos < screenPos) {
-        showProgress();
-        window.removeEventListener('scroll', checkScroll);
+    // Scroll Reveal
+    window.addEventListener("scroll", reveal);
+    function reveal() {
+      let reveals = document.querySelectorAll(".reveal");
+      for (let i = 0; i < reveals.length; i++) {
+        let windowHeight = window.innerHeight;
+        let revealTop = reveals[i].getBoundingClientRect().top;
+        let revealPoint = 150;
+        if (revealTop < windowHeight - revealPoint) {
+          reveals[i].classList.add("active");
+        }
       }
     }
 
-    window.addEventListener('scroll', checkScroll);
+    // Animate progress bars
+    const progressBars = document.querySelectorAll(".progress-bar");
+    window.addEventListener("scroll", () => {
+      let skillsSection = document.querySelector("#skills");
+      let sectionTop = skillsSection.offsetTop - window.innerHeight + 100;
+      if (window.scrollY > sectionTop) {
+        progressBars.forEach(bar => {
+          bar.style.width = bar.style.getPropertyValue("--percent");
+        });
+      }
+    });
+
+    // Navbar active link
+    const sections = document.querySelectorAll("section");
+    const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+    window.addEventListener("scroll", () => {
+      let current = "";
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 120;
+        if (pageYOffset >= sectionTop) current = section.getAttribute("id");
+      });
+      navLinks.forEach(link => {
+        link.classList.remove("active");
+        if (link.getAttribute("href").includes(current)) {
+          link.classList.add("active");
+        }
+      });
+    });
   </script>
 </body>
-
-
 </html>
-
